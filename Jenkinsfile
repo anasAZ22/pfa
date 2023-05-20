@@ -16,6 +16,7 @@ pipeline {
         }
         stage('Build') {
             steps {
+                sh 'chmod -R 755 /.npm'
                 sh 'npm install'
             }
         }
