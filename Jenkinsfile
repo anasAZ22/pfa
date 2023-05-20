@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:14-alpine' // Modifier l'image Docker en fonction de vos besoins
+            image 'node:14-alpine'
             args '-p 3000:3000'
         }
     }
@@ -16,19 +16,19 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'npm install' // Supprimer la ligne 'chmod -R 755 .npm' si nécessaire
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
-                sh './jenkins/scripts/test.sh'
+                sh 'npm test' // Remplacez la commande par celle appropriée pour exécuter les tests
             }
         }
         stage('Deliver') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh 'npm run build' // Remplacez la commande par celle appropriée pour générer les fichiers de livraison
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
+                sh 'npm run deploy' // Remplacez la commande par celle appropriée pour déployer les fichiers de livraison
             }
         }
     }
