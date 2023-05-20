@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:18-alpine'
+            image 'node:18-alpine' // Modification : Changer la version de l'image Docker
             args '-p 3000:3000'
         }
     }
@@ -11,12 +11,12 @@ pipeline {
     stages {
         stage('Declarative: Checkout SCM') {
             steps {
-                checkout scm
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/anasAZ22/pfa.git']]]) // Modification : Utiliser le plugin GitSCM et spécifier l'URL du référentiel
             }
         }
         stage('Build') {
             steps {
-                sh 'chmod -R 755 /.npm'
+                sh 'chmod -R 755 .npm' // Modification : Changer le chemin de l'autorisation
                 sh 'npm install'
             }
         }
