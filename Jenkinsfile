@@ -3,7 +3,6 @@ pipeline {
         docker { 
             image 'node:18-alpine' 
             args '-p 3000:3000'
-            user 'root' // Ajoutez cette ligne pour exécuter les commandes en tant qu'utilisateur root
         } 
     }
     environment {
@@ -12,7 +11,7 @@ pipeline {
     stages {
         stage('Set Permissions') {
             steps {
-                sh 'chown -R 132:142 /.npm' // Supprimez le "sudo"
+                sh 'su root -c "chown -R 132:142 /.npm"'
             }
         }
         
